@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container prediction-result">
+    <h2>Prediction Result</h2>
+    {% if prediction_result %}
+
+      <p>Probability Score: {{ prediction_result.probability_score }}</p>
+      
+      <p style="color: red; font-weight: bold;">
+        Fake Percentage: {{ prediction_result.fake_percent }}%
+      </p>
+      
+      {% if prediction_result.real_percent >= 50 %}
+        <p style="color: blue; font-weight: bold;">
+          Real Percentage: {{ prediction_result.real_percent }}%
+        </p>
+      {% else %}
+        <p>
+          Real Percentage: {{ prediction_result.real_percent }}%
+        </p>
+      {% endif %}
+      
+      {% if prediction_result.class_label == 'Real' %}
+        <p>Image Type: Real</p>
+      {% elif prediction_result.class_label == 'Fake' %}
+        <p>Image Type: Fake</p>
+      {% else %}
+        <p>Image Type: Unknown</p>
+      {% endif %}
+      
+    {% else %}
+      <p>No prediction result available.</p>
+    {% endif %}
+    
+    <!-- Green button styled using Bootstrap classes -->
+    <a href="{% url 'predict' %}" class="btn btn-success">Upload another image</a>
+  </div>
+{% endblock %}
